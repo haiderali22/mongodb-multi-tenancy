@@ -36,7 +36,7 @@ public class TestMultiTenantcy {
 	}
 
 	@Test
-	public void testFind() {
+	public void testFindAll() {
 
 
 		Personnel p = new Personnel();
@@ -45,7 +45,7 @@ public class TestMultiTenantcy {
 		personnelRepository.save(p);
 
 		Personnel p2 = new Personnel();
-		p2.setTenantId("TA2");
+		p2.setTenantId("TA2"); 
 		p2.setName("testFind1");
 		personnelRepository.save(p2);
 
