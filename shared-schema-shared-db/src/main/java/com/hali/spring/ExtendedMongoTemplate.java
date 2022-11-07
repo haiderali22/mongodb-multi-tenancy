@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.UpdateDefinition;
 import org.springframework.stereotype.Component;
 
+import com.mongodb.client.result.DeleteResult;
+
 public class ExtendedMongoTemplate extends MongoTemplate {
 
 	private final TenantStore store;
@@ -97,4 +99,10 @@ public class ExtendedMongoTemplate extends MongoTemplate {
 		return super.doFindOne(collectionName, query, fields, entityClass);
 	}
 	
+	
+	@Override
+	protected <T> DeleteResult doRemove(String collectionName, Query query, Class<T> entityClass, boolean multi) {
+		query.addCriteria(getTenantCriteria());
+		return super.doRemove(collectionName, query, entityClass, multi);
+	}
 }

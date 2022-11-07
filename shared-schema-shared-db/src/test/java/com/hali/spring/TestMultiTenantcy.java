@@ -16,10 +16,39 @@ public class TestMultiTenantcy {
 	PersonnelRepository personnelRepository;
 	
 	@Autowired
-	MongoTemplate mongoTemplate;
-
-	@Autowired
 	TenantStore tenantStore;  
+	
+	
+	@BeforeEach
+	private void setup() {
+//		personnelRepository.deleteAll();
+
+	}
+	
+	@Test
+	public void testDeleteAll() {
+
+
+		Personnel p = new Personnel();
+		p.setName("testFind");
+		p.setTenantId("TA1");
+		personnelRepository.save(p);
+
+		Personnel p2 = new Personnel();
+		p2.setTenantId("TA2"); 
+		p2.setName("testFind1");
+		personnelRepository.save(p2);
+
+		tenantStore.setTenantId("TA1");
+		personnelRepository.deleteAll();
+		
+		
+		Assertions.assertEquals(1, personnelRepository.count());
+
+		tenantStore.clear();
+	}
+
+	
 	
 	@Test
 	public void testAdd() {
